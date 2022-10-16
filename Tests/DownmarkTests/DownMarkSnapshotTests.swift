@@ -12,12 +12,20 @@ import SnapshotTesting
 final class DownMarkSnapshotTests: XCTestCase {
 
     override class func setUp() {
-        isRecording = true
+        isRecording = false
     }
 
     func testHeading() throws {
         let label = UILabel()
         let attributedString = Downmark(text: "# Header").attributedString
+        label.attributedText = attributedString
+
+        assertSnapshot(matching: label, as: .image)
+    }
+
+    func testBoldHeading() throws {
+        let label = UILabel()
+        let attributedString = Downmark(text: "# **Header**").attributedString
         label.attributedText = attributedString
 
         assertSnapshot(matching: label, as: .image)
