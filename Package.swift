@@ -20,6 +20,10 @@ let package = Package(
             url: "https://github.com/apple/swift-markdown.git",
             branch: "main"
         ),
+        .package(
+            url: "https://github.com/pointfreeco/swift-snapshot-testing",
+            from: "1.10.0"
+        )
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -32,6 +36,12 @@ let package = Package(
             ]),
         .testTarget(
             name: "DownmarkTests",
-            dependencies: ["Downmark"]),
+            dependencies: [
+                "Downmark",
+                .product(
+                    name: "SnapshotTesting",
+                    package: "swift-snapshot-testing"
+                )
+            ]),
     ]
 )
