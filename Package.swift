@@ -36,6 +36,9 @@ let package = Package(
             ]),
         .testTarget(
             name: "DownmarkTests",
+            dependencies: ["Downmark"]),
+        .testTarget(
+            name: "DownmarkSnapshotTests",
             dependencies: [
                 "Downmark",
                 .product(
