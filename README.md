@@ -2,8 +2,7 @@
 
 A Swift package which parses a markdown string to attributed text, which can be used in UIKit, AppKit (TODO) and SwiftUI (TODO). 
 
-# Installation (TODO)
-This is a package in (early) development, and should not yet be used in production.
+**Note: This is a package in (early) development, and should not be used in production.**
 
 # Usage
 
@@ -31,6 +30,7 @@ This will produce the following label:
 
 <img width="383" alt="testHeading" src="https://user-images.githubusercontent.com/67503659/196253222-46a9a1b9-be2b-441c-9741-d5e7e20bc4ad.png">
 
+# Installation (TODO)
 
 # Markdown features
 Downmark supports the following markdown features:
@@ -39,8 +39,8 @@ Downmark supports the following markdown features:
 - [x] Italic text
 - [ ] Links
 - [ ] Strikethrough text
-- [ ] Bulleted list
-- [ ] Unordered list
+- [ ] Bulleted lists
+- [ ] Unordered lists
 
 ... and more features to come!
 
