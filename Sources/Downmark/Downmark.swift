@@ -2,15 +2,27 @@ import Foundation
 import UIKit
 import Markdown
 
-public struct Downmark: MarkupVisitor {
-    var attributedString: NSAttributedString!
+public class Downmark {
 
-    public init(text: String) {
-        let document = Document(parsing: text)
-        self.attributedString = self.visit(document)
+    private var parser: Parser
+
+    init() {
+        self.parser = Parser()
     }
 
-    public mutating func defaultVisit(_ markup: Markup) -> NSAttributedString {
+    public func parse(text: String) -> NSAttributedString {
+        return parser.parse(text: text)
+    }
+}
+
+struct Parser: MarkupVisitor {
+
+    mutating func parse(text: String) -> NSAttributedString {
+        let document = Document(parsing: text)
+        return self.visit(document)
+    }
+
+    mutating func defaultVisit(_ markup: Markup) -> NSAttributedString {
         let string = NSMutableAttributedString()
         for child in markup.children {
             string.append(visit(child))
@@ -18,7 +30,7 @@ public struct Downmark: MarkupVisitor {
         return string
     }
 
-    public func visitHeading(_ heading: Heading) -> NSAttributedString {
+    func visitHeading(_ heading: Heading) -> NSAttributedString {
         let attributedString = NSMutableAttributedString()
         for child in heading.children {
             attributedString.append(createHeading(child, level: heading.level))
@@ -26,7 +38,7 @@ public struct Downmark: MarkupVisitor {
         return attributedString
     }
 
-    public func visitEmphasis(_ emphasis: Emphasis) -> NSAttributedString {
+    func visitEmphasis(_ emphasis: Emphasis) -> NSAttributedString {
         let font = UIFont.systemFont(ofSize: 0)
         let text = TextExtractor(markup: emphasis).outputString
         let traits = TraitCreator(markup: emphasis).traits
@@ -40,7 +52,7 @@ public struct Downmark: MarkupVisitor {
         ])
     }
 
-    public func visitStrong(_ strong: Strong) -> NSAttributedString {
+    func visitStrong(_ strong: Strong) -> NSAttributedString {
         let font = UIFont.systemFont(ofSize: 0)
         let text = TextExtractor(markup: strong).outputString
         let traits = TraitCreator(markup: strong).traits
@@ -57,7 +69,7 @@ public struct Downmark: MarkupVisitor {
 
 // MARK: Helpers
 
-extension Downmark {
+extension Parser {
     private func createHeading(_ markup: Markup, level: Int) -> NSAttributedString {
         let font: UIFont
         let traitFont = UIFont.systemFont(ofSize: 0)
@@ -94,7 +106,7 @@ extension Downmark {
     }
 }
 
-public struct TraitCreator: MarkupVisitor {
+struct TraitCreator: MarkupVisitor {
 
     var traits: UIFontDescriptor.SymbolicTraits!
 
@@ -102,7 +114,7 @@ public struct TraitCreator: MarkupVisitor {
         traits = visit(markup)
     }
 
-    public mutating func defaultVisit(_ markup: Markup) -> UIFontDescriptor.SymbolicTraits {
+    mutating func defaultVisit(_ markup: Markup) -> UIFontDescriptor.SymbolicTraits {
         var traits = UIFontDescriptor.SymbolicTraits()
         for child in markup.children {
             traits.insert(visit(child))
@@ -110,7 +122,7 @@ public struct TraitCreator: MarkupVisitor {
         return traits
     }
 
-    public mutating func visitEmphasis(_ emphasis: Emphasis) -> UIFontDescriptor.SymbolicTraits {
+    mutating func visitEmphasis(_ emphasis: Emphasis) -> UIFontDescriptor.SymbolicTraits {
         var traits = UIFontDescriptor.SymbolicTraits(arrayLiteral: .traitItalic)
         for child in emphasis.children {
             traits.insert(visit(child))
@@ -118,7 +130,7 @@ public struct TraitCreator: MarkupVisitor {
         return traits
     }
 
-    public mutating func visitStrong(_ strong: Strong) -> UIFontDescriptor.SymbolicTraits {
+    mutating func visitStrong(_ strong: Strong) -> UIFontDescriptor.SymbolicTraits {
         var traits = UIFontDescriptor.SymbolicTraits(arrayLiteral: .traitBold)
         for child in strong.children {
             traits.insert(visit(child))
@@ -127,15 +139,15 @@ public struct TraitCreator: MarkupVisitor {
     }
 }
 
-public struct TextExtractor: MarkupWalker {
+struct TextExtractor: MarkupWalker {
 
-    public var outputString: String = ""
+    var outputString: String = ""
 
-    public init(markup: Markup) {
+    init(markup: Markup) {
         self.visit(markup)
     }
 
-    public mutating func visitText(_ text: Text) {
+    mutating func visitText(_ text: Text) {
         outputString += text.string
         descendInto(text)
     }

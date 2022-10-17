@@ -17,7 +17,7 @@ final class DownMarkSnapshotTests: XCTestCase {
 
     func testHeading() throws {
         let label = UILabel()
-        let attributedString = Downmark(text: "# Header").attributedString
+        let attributedString = Downmark().parse(text: "# Header")
         label.attributedText = attributedString
 
         assertSnapshot(matching: label, as: .image)
@@ -25,7 +25,7 @@ final class DownMarkSnapshotTests: XCTestCase {
 
     func testBoldHeading() throws {
         let label = UILabel()
-        let attributedString = Downmark(text: "# **Header**").attributedString
+        let attributedString = Downmark().parse(text: "# **Header**")
         label.attributedText = attributedString
 
         assertSnapshot(matching: label, as: .image)
