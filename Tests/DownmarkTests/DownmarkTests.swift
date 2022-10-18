@@ -45,24 +45,6 @@ final class DownmarkTests: XCTestCase {
         )
     }
 
-    func testTextExtraction() throws {
-        let markup = Heading(
-            level: 3,
-            Emphasis(
-                Strong(
-                    Strikethrough(
-                        Text("Header")
-                    )
-                )
-            )
-        )
-        let text = TextExtractor(markup: markup).outputString
-
-        let comparisonString = "Header"
-
-        XCTAssertEqual(text, comparisonString)
-    }
-
     func testEmphasisedText() throws {
         let parsedString = Downmark().parse(text: "*Text*")
         let attributedString = NSAttributedString(string: "Text").withFont(size: 16, traits: .traitItalic)
@@ -129,7 +111,7 @@ final class DownmarkTests: XCTestCase {
         )
     }
 
-    func testHeaderWithInlineChildren() throws {
+    func testHeaderWithChildren() throws {
         let parsedString = Downmark().parse(text: "# **Bold** *italic*")
         let attributedString1 = NSMutableAttributedString(string: "Bold").withFont(size: 36, traits: .traitBold)
         let attributedString2 = NSAttributedString(string: " ").withFont(size: 36)
