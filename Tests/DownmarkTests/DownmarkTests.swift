@@ -8,107 +8,67 @@ final class DownmarkTests: XCTestCase {
         let parsedString = Downmark().parse(text: "# Header")
         let attributedString = NSAttributedString(string: "Header").withFont(size: 36)
 
-        XCTAssertTrue(
-            attributedString.isEqual(
-                to: parsedString
-            )
-        )
+        XCTAssertEqual(attributedString, parsedString)
     }
 
     func testMarkdownHeaderLevel2Parsing() throws {
         let parsedString = Downmark().parse(text: "## Header")
         let attributedString = NSAttributedString(string: "Header").withFont(size: 28)
-        XCTAssertTrue(
-            attributedString.isEqual(
-                to: parsedString
-            )
-        )
+        XCTAssertEqual(attributedString, parsedString)
     }
 
     func testMarkdownHeaderLevel3Parsing() throws {
         let parsedString = Downmark().parse(text: "### Header")
         let attributedString = NSAttributedString(string: "Header").withFont(size: 24)
-        XCTAssertTrue(
-            attributedString.isEqual(
-                to: parsedString
-            )
-        )
+        XCTAssertEqual(attributedString, parsedString)
     }
 
     func testMarkdownHeaderDefaultLevelParsing() throws {
         let parsedString = Downmark().parse(text: "#### Header")
         let attributedString = NSAttributedString(string: "Header").withFont(size: 20)
-        XCTAssertTrue(
-            attributedString.isEqual(
-                to: parsedString
-            )
-        )
+        XCTAssertEqual(attributedString, parsedString)
     }
 
     func testEmphasisedText() throws {
         let parsedString = Downmark().parse(text: "*Text*")
         let attributedString = NSAttributedString(string: "Text").withFont(size: 16, traits: .traitItalic)
 
-        XCTAssertTrue(
-            attributedString.isEqual(
-                to: parsedString
-            )
-        )
+        XCTAssertEqual(attributedString, parsedString)
     }
 
     func testBoldText() throws {
         let parsedString = Downmark().parse(text: "**Text**")
         let attributedString = NSAttributedString(string: "Text").withFont(size: 16, traits: .traitBold)
 
-        XCTAssertTrue(
-            attributedString.isEqual(
-                to: parsedString
-            )
-        )
+        XCTAssertEqual(attributedString, parsedString)
     }
 
     func testBoldEmphasisedText() throws {
         let parsedString = Downmark().parse(text: "***Text***")
         let attributedString = NSAttributedString(string: "Text").withFont(size: 16, traits: [.traitItalic, .traitBold])
 
-        XCTAssertTrue(
-            attributedString.isEqual(
-                to: parsedString
-            )
-        )
+        XCTAssertEqual(attributedString, parsedString)
     }
 
     func testBoldHeader() throws {
         let parsedString = Downmark().parse(text: "# **Text**")
         let attributedString = NSAttributedString(string: "Text").withFont(size: 36, traits: .traitBold)
 
-        XCTAssertTrue(
-            attributedString.isEqual(
-                to: parsedString
-            )
-        )
+        XCTAssertEqual(attributedString, parsedString)
     }
 
     func testEmphasisedHeader() throws {
         let parsedString = Downmark().parse(text: "# *Text*")
         let attributedString = NSAttributedString(string: "Text").withFont(size: 36, traits: .traitItalic)
 
-        XCTAssertTrue(
-            attributedString.isEqual(
-                to: parsedString
-            )
-        )
+        XCTAssertEqual(attributedString, parsedString)
     }
 
     func testBoldEmphasisedHeader() throws {
         let parsedString = Downmark().parse(text: "# ***Text***")
         let attributedString = NSAttributedString(string: "Text").withFont(size: 36, traits: [.traitItalic, .traitBold])
 
-        XCTAssertTrue(
-            attributedString.isEqual(
-                to: parsedString
-            )
-        )
+        XCTAssertEqual(attributedString, parsedString)
     }
 
     func testHeaderWithChildren() throws {
